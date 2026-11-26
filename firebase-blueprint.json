@@ -1,0 +1,300 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Private user account profile with role, learning preferences, and gamification progress.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "displayName": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "email": { "type": "string", "maxLength": 200 },
+        "role": {
+          "type": "string",
+          "enum": ["super_admin", "school_admin", "teacher", "parent", "student", "homeschool_family", "sports_coach", "entrepreneur_mentor", "content_creator"],
+          "maxLength": 40
+        },
+        "ageGroup": {
+          "type": "string",
+          "enum": ["Early Childhood (3-5)", "Foundation (6-8)", "Preparatory (9-11)", "Middle School (12-14)", "Secondary (15-18)", "Young Entrepreneurs (18+)"],
+          "maxLength": 40
+        },
+        "points": { "type": "integer" },
+        "streakDays": { "type": "integer" },
+        "badges": { "type": "array", "description": "Max 20 earned badge names" },
+        "preferredLanguage": { "type": "string", "maxLength": 32 },
+        "parentalControlLevel": { "type": "string", "enum": ["strict", "moderate", "standard"], "maxLength": 20 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "displayName", "email", "role", "ageGroup", "points", "streakDays", "badges", "preferredLanguage", "parentalControlLevel", "createdAt", "updatedAt"]
+    },
+    "MentorProfile": {
+      "title": "MentorProfile",
+      "description": "Publicly visible mentor, teacher, and sports coach profile without PII.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "name": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "title": { "type": "string", "minLength": 1, "maxLength": 120 },
+        "category": { "type": "string", "minLength": 1, "maxLength": 80 },
+        "specialty": { "type": "string", "minLength": 1, "maxLength": 120 },
+        "bio": { "type": "string", "maxLength": 1000 },
+        "experienceYears": { "type": "integer" },
+        "featured": { "type": "boolean" },
+        "createdBy": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "name", "title", "category", "specialty", "bio", "experienceYears", "featured", "createdBy", "createdAt", "updatedAt"]
+    },
+    "LearningCategory": {
+      "title": "LearningCategory",
+      "description": "Top-level learning domain and unlimited subcategories editable via Admin Panel.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "code": { "type": "string", "minLength": 1, "maxLength": 10 },
+        "name": { "type": "string", "minLength": 1, "maxLength": 120 },
+        "description": { "type": "string", "maxLength": 600 },
+        "subcategories": { "type": "array", "description": "Max 50 subject topics" },
+        "order": { "type": "integer" },
+        "createdBy": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "code", "name", "description", "subcategories", "order", "createdBy", "createdAt", "updatedAt"]
+    },
+    "Course": {
+      "title": "Course",
+      "description": "Structured course in the LMS catalog.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "title": { "type": "string", "minLength": 1, "maxLength": 160 },
+        "categoryId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "categoryName": { "type": "string", "minLength": 1, "maxLength": 120 },
+        "subject": { "type": "string", "minLength": 1, "maxLength": 120 },
+        "ageGroup": { "type": "string", "minLength": 1, "maxLength": 40 },
+        "level": { "type": "string", "enum": ["Beginner", "Intermediate", "Advanced"], "maxLength": 20 },
+        "instructorName": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "description": { "type": "string", "maxLength": 1500 },
+        "durationLabel": { "type": "string", "maxLength": 40 },
+        "format": { "type": "string", "enum": ["Video", "Live", "Hybrid", "Workshop"], "maxLength": 20 },
+        "lessonCount": { "type": "integer" },
+        "pointsReward": { "type": "integer" },
+        "featured": { "type": "boolean" },
+        "createdBy": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "title", "categoryId", "categoryName", "subject", "ageGroup", "level", "instructorName", "description", "durationLabel", "format", "lessonCount", "pointsReward", "featured", "createdBy", "createdAt", "updatedAt"]
+    },
+    "Lesson": {
+      "title": "Lesson",
+      "description": "Individual lesson module inside a course.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "courseId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "title": { "type": "string", "minLength": 1, "maxLength": 160 },
+        "order": { "type": "integer" },
+        "type": { "type": "string", "enum": ["video", "reading", "activity", "quiz", "live"], "maxLength": 20 },
+        "durationMinutes": { "type": "integer" },
+        "summary": { "type": "string", "maxLength": 2000 },
+        "resourceUrl": { "type": "string", "maxLength": 500 },
+        "worksheetPrompt": { "type": "string", "maxLength": 1000 },
+        "createdBy": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "courseId", "title", "order", "type", "durationMinutes", "summary", "resourceUrl", "worksheetPrompt", "createdBy", "createdAt", "updatedAt"]
+    },
+    "Enrollment": {
+      "title": "Enrollment",
+      "description": "Student enrollment, attendance, completion progress, and certificate status.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "userId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "courseId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "courseTitle": { "type": "string", "minLength": 1, "maxLength": 160 },
+        "progressPercent": { "type": "integer" },
+        "completedLessonIds": { "type": "array", "description": "Max 100 completed lesson IDs" },
+        "attendanceCount": { "type": "integer" },
+        "certificateIssued": { "type": "boolean" },
+        "teacherFeedback": { "type": "string", "maxLength": 1000 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "courseId", "courseTitle", "progressPercent", "completedLessonIds", "attendanceCount", "certificateIssued", "teacherFeedback", "createdAt", "updatedAt"]
+    },
+    "HomeschoolPlan": {
+      "title": "HomeschoolPlan",
+      "description": "Parent-led customized homeschool curriculum and daily schedule.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "ownerId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "childName": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "ageGroup": { "type": "string", "minLength": 1, "maxLength": 40 },
+        "learningPace": { "type": "string", "enum": ["Gentle", "Balanced", "Accelerated"], "maxLength": 20 },
+        "interests": { "type": "array", "description": "Max 15 interest topics" },
+        "weeklyGoals": { "type": "string", "maxLength": 1000 },
+        "scheduleSummary": { "type": "string", "maxLength": 2000 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "ownerId", "childName", "ageGroup", "learningPace", "interests", "weeklyGoals", "scheduleSummary", "createdAt", "updatedAt"]
+    },
+    "BusinessVenture": {
+      "title": "BusinessVenture",
+      "description": "Student mini-business venture inside My Business Lab.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "ownerId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "founderName": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "ventureName": { "type": "string", "minLength": 1, "maxLength": 120 },
+        "category": { "type": "string", "minLength": 1, "maxLength": 80 },
+        "tagline": { "type": "string", "maxLength": 200 },
+        "problemSolved": { "type": "string", "maxLength": 1000 },
+        "budgetInr": { "type": "integer" },
+        "revenueInr": { "type": "integer" },
+        "stage": { "type": "string", "enum": ["Idea", "Prototype", "Marketplace", "Pitch"], "maxLength": 20 },
+        "isPublic": { "type": "boolean" },
+        "mentorFeedback": { "type": "string", "maxLength": 800 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "ownerId", "founderName", "ventureName", "category", "tagline", "problemSolved", "budgetInr", "revenueInr", "stage", "isPublic", "mentorFeedback", "createdAt", "updatedAt"]
+    },
+    "SportsLog": {
+      "title": "SportsLog",
+      "description": "Athletic, yoga, and physical fitness performance log.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "ownerId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "athleteName": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "sport": { "type": "string", "minLength": 1, "maxLength": 60 },
+        "metricLabel": { "type": "string", "minLength": 1, "maxLength": 80 },
+        "metricValue": { "type": "string", "minLength": 1, "maxLength": 60 },
+        "durationMinutes": { "type": "integer" },
+        "coachNote": { "type": "string", "maxLength": 600 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "ownerId", "athleteName", "sport", "metricLabel", "metricValue", "durationMinutes", "coachNote", "createdAt", "updatedAt"]
+    },
+    "LiveClass": {
+      "title": "LiveClass",
+      "description": "Live or recorded Gurukul class schedule.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "title": { "type": "string", "minLength": 1, "maxLength": 160 },
+        "subject": { "type": "string", "minLength": 1, "maxLength": 120 },
+        "instructorName": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "ageGroup": { "type": "string", "minLength": 1, "maxLength": 40 },
+        "scheduledLabel": { "type": "string", "minLength": 1, "maxLength": 80 },
+        "durationMinutes": { "type": "integer" },
+        "status": { "type": "string", "enum": ["scheduled", "live", "recorded"], "maxLength": 20 },
+        "createdBy": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "title", "subject", "instructorName", "ageGroup", "scheduledLabel", "durationMinutes", "status", "createdBy", "createdAt", "updatedAt"]
+    },
+    "LibraryResource": {
+      "title": "LibraryResource",
+      "description": "Bharat Knowledge Library curated books, stories, worksheets, and Shastra texts.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "title": { "type": "string", "minLength": 1, "maxLength": 160 },
+        "author": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "category": { "type": "string", "minLength": 1, "maxLength": 80 },
+        "ageGroup": { "type": "string", "minLength": 1, "maxLength": 40 },
+        "resourceType": { "type": "string", "enum": ["Book", "Story", "Worksheet", "Shastra", "Project"], "maxLength": 20 },
+        "summary": { "type": "string", "maxLength": 1200 },
+        "createdBy": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "title", "author", "category", "ageGroup", "resourceType", "summary", "createdBy", "createdAt", "updatedAt"]
+    },
+    "AssessmentSubmission": {
+      "title": "AssessmentSubmission",
+      "description": "Student quiz or assignment submission and teacher grading record.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "userId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "studentName": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "courseId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "title": { "type": "string", "minLength": 1, "maxLength": 160 },
+        "score": { "type": "integer" },
+        "maxScore": { "type": "integer" },
+        "status": { "type": "string", "enum": ["submitted", "graded"], "maxLength": 20 },
+        "feedback": { "type": "string", "maxLength": 1000 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "studentName", "courseId", "title", "score", "maxScore", "status", "feedback", "createdAt", "updatedAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "Private user account profiles and RBAC roles."
+    },
+    "/admins/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "Trusted admin lookup documents."
+    },
+    "/mentors/{mentorId}": {
+      "schema": { "$ref": "#/entities/MentorProfile" },
+      "description": "Public directory of featured teachers, coaches, and mentors."
+    },
+    "/categories/{categoryId}": {
+      "schema": { "$ref": "#/entities/LearningCategory" },
+      "description": "Learning categories and subject index managed by Admin."
+    },
+    "/courses/{courseId}": {
+      "schema": { "$ref": "#/entities/Course" },
+      "description": "LMS course catalog."
+    },
+    "/courses/{courseId}/lessons/{lessonId}": {
+      "schema": { "$ref": "#/entities/Lesson" },
+      "description": "Course lessons subcollection."
+    },
+    "/enrollments/{enrollmentId}": {
+      "schema": { "$ref": "#/entities/Enrollment" },
+      "description": "Student enrollments, attendance, and progress."
+    },
+    "/homeschoolPlans/{planId}": {
+      "schema": { "$ref": "#/entities/HomeschoolPlan" },
+      "description": "Homeschool family learning schedules and custom plans."
+    },
+    "/ventures/{ventureId}": {
+      "schema": { "$ref": "#/entities/BusinessVenture" },
+      "description": "My Business Lab student mini-business ventures."
+    },
+    "/sportsLogs/{logId}": {
+      "schema": { "$ref": "#/entities/SportsLog" },
+      "description": "My Sports Academy fitness and athletic performance records."
+    },
+    "/liveClasses/{classId}": {
+      "schema": { "$ref": "#/entities/LiveClass" },
+      "description": "Live and recorded classes managed by Admin."
+    },
+    "/libraryResources/{resourceId}": {
+      "schema": { "$ref": "#/entities/LibraryResource" },
+      "description": "Bharat Knowledge Library digital texts and worksheets."
+    },
+    "/assessments/{assessmentId}": {
+      "schema": { "$ref": "#/entities/AssessmentSubmission" },
+      "description": "Student quiz and assignment submissions."
+    }
+  }
+}

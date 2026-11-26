@@ -1,0 +1,118 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --bg-canvas: #ffffff;
+  --bg-surface: #f8fafc;
+  --bg-elevated: #ffffff;
+  --border-hairline: #e2e8f0;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+
+  /* Default Accent: Navy & Saffron */
+  --accent-primary: #0f274a;
+  --accent-primary-hover: #173766;
+  --accent-secondary: #d95d14;
+  --accent-gold: #b8860b;
+  --accent-soft: #eff6ff;
+  --accent-warm-soft: #fff7ed;
+}
+
+.dark {
+  --bg-canvas: #0b1120;
+  --bg-surface: #111827;
+  --bg-elevated: #162033;
+  --border-hairline: #1e293b;
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+
+  --accent-primary: #e07a2d;
+  --accent-primary-hover: #f08b3e;
+  --accent-secondary: #f59e0b;
+  --accent-gold: #eab308;
+  --accent-soft: #1e293b;
+  --accent-warm-soft: #271b12;
+}
+
+.theme-parchment {
+  --bg-canvas: #faf7f0;
+  --bg-surface: #f3ede0;
+  --bg-elevated: #fffdf8;
+  --border-hairline: #e5dcc9;
+  --text-primary: #1c1917;
+  --text-secondary: #44403c;
+  --text-muted: #78716c;
+}
+
+[data-accent="indigo-gold"] {
+  --accent-primary: #272b6b;
+  --accent-primary-hover: #353a8c;
+  --accent-secondary: #b45309;
+  --accent-gold: #ca8a04;
+  --accent-soft: #eef2ff;
+  --accent-warm-soft: #fefce8;
+}
+
+.dark[data-accent="indigo-gold"] {
+  --accent-primary: #818cf8;
+  --accent-primary-hover: #6366f1;
+  --accent-secondary: #eab308;
+  --accent-soft: #1e1b4b;
+  --accent-warm-soft: #28220d;
+}
+
+[data-accent="teal-ochre"] {
+  --accent-primary: #0f4c5c;
+  --accent-primary-hover: #146378;
+  --accent-secondary: #c2410c;
+  --accent-gold: #d97706;
+  --accent-soft: #ecfeff;
+  --accent-warm-soft: #fff7ed;
+}
+
+.dark[data-accent="teal-ochre"] {
+  --accent-primary: #2dd4bf;
+  --accent-primary-hover: #14b8a6;
+  --accent-secondary: #fb923c;
+  --accent-soft: #0f292e;
+  --accent-warm-soft: #2c1810;
+}
+
+[data-accent="forest-sandalwood"] {
+  --accent-primary: #1b4332;
+  --accent-primary-hover: #255943;
+  --accent-secondary: #9a5b13;
+  --accent-gold: #b07d3c;
+  --accent-soft: #ecfdf5;
+  --accent-warm-soft: #fef7ec;
+}
+
+.dark[data-accent="forest-sandalwood"] {
+  --accent-primary: #34d399;
+  --accent-primary-hover: #10b981;
+  --accent-secondary: #f59e0b;
+  --accent-soft: #0f291e;
+  --accent-warm-soft: #261b0e;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  background-color: var(--bg-canvas);
+  color: var(--text-primary);
+  transition: background-color 180ms ease, color 180ms ease;
+}
+
+.font-display {
+  font-family: 'Fraunces', Georgia, serif;
+}
+
+.font-mono-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
